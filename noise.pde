@@ -26,7 +26,9 @@ class Noise {
                int rand = int(random(0, base.size()));
                int x = int(random(width));
                int y = int(random(height));
-               image(base.get(rand), i, o, pixelWidth, pixelWidth, x, y, pixelWidth, pixelWidth);
+               image(
+                     base.get(rand).get(y, x, pixelWidth, pixelWidth), 
+                     i, o);
            }
         }
     }
