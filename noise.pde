@@ -63,6 +63,11 @@ class Noise {
         }
     }
 
+    PImage pic() {
+        int rand = int(random(pics.size()));
+        return pics.get(rand);
+    }
+
     void drawUnit(float x, float y, float unitSize) {
        int rand = int(random(0, pics.size()));
        image(pics.get(rand), x, y, unitSize, unitSize);
