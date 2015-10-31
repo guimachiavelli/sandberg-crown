@@ -1,16 +1,11 @@
 class Noise {
-    int width;
-    int height;
     int pixelWidth = 10;
     int cropSize = 20;
 
     ArrayList<PImage> base = new ArrayList<PImage>();
     ArrayList<PImage> pics = new ArrayList<PImage>();
 
-    Noise(int w, int h) {
-       width = w;
-       height = h;
-
+    Noise() {
        loadBaseImages();
     }
 
@@ -26,7 +21,7 @@ class Noise {
                 !path.endsWith(".png")) {
                 continue;
             }
-            base.add(loadImage(files[i].getAbsolutePath()));
+            base.add(loadImage(path));
         }
     }
 
@@ -66,5 +61,10 @@ class Noise {
                image(pics.get(rand), i, o, pixelWidth, pixelWidth);
            }
         }
+    }
+
+    void drawUnit(float x, float y, float unitSize) {
+       int rand = int(random(0, pics.size()));
+       image(pics.get(rand), x, y, unitSize, unitSize);
     }
 }
