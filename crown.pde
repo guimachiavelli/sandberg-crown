@@ -22,5 +22,4 @@ void draw() {
     } else {
         dot.shrink();
     }
-
 }

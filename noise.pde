@@ -21,7 +21,9 @@ class Noise {
         for (int i = 0; i < files.length; i++) {
             String path = files[i].getAbsolutePath();
 
-            if (!path.endsWith(".jpg") && !path.endsWith(".gif") && !path.endsWith(".png")) {
+            if (!path.endsWith(".jpg") &&
+                !path.endsWith(".gif") &&
+                !path.endsWith(".png")) {
                 continue;
             }
             base.add(loadImage(files[i].getAbsolutePath()));
