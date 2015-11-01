@@ -6,6 +6,7 @@ class Shape {
     float y;
     float width;
     float height;
+    int thickness = 2;
     float unitSize = 10;
     ArrayList<PImage> units = new ArrayList<PImage>();
     String arrangeType;
@@ -51,7 +52,8 @@ class Shape {
 
         for (int i = 0; i < width; i += 1) {
             for (int o = 0; o < height; o += 1) {
-                if ((i == 0) || (i == width - 1) || (o == 0) || (o == height - 1)) {
+                if ((i < thickness) || (i >= width - thickness) ||
+                    (o < thickness) || (o >= height - thickness)) {
                     pos_x = i * unitSize + x;
                     pos_y = o * unitSize + y;
 
@@ -68,5 +70,13 @@ class Shape {
 
     void advance() {
         Collections.rotate(units, 1);
+    }
+
+    void grow() {
+        thickness += 1;
+    }
+
+    void grow(int increment) {
+        thickness += increment;
     }
 }

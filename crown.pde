@@ -13,17 +13,17 @@ void setup() {
     //frameRate(0.5);
     dot = new Enlightenment(random(width - dotWidth), random(height - dotWidth));
 
-    rect1 = new Shape(10, 10, 58, 58, "random");
+    rect1 = new Shape(10, 10, 58, 58, "advance");
     rect2 = new Shape(20, 20, 56, 56, "advance");
-    rect3 = new Shape(30, 30, 54, 54, "random");
-    rect4 = new Shape(40, 40, 52, 52, "advance");
-    rect5 = new Shape(50, 50, 50, 50, "random");
+    //rect3 = new Shape(30, 30, 54, 54, "random");
+    //rect4 = new Shape(40, 40, 52, 52, "advance");
+    //rect5 = new Shape(50, 50, 50, 50, "random");
 
     rect1.setup();
     rect2.setup();
-    rect3.setup();
-    rect4.setup();
-    rect5.setup();
+    //rect3.setup();
+    //rect4.setup();
+    //rect5.setup();
 }
 
 void draw() {
@@ -39,9 +39,13 @@ void draw() {
 
     rect1.draw();
     rect2.draw();
-    rect3.draw();
-    rect4.draw();
-    rect5.draw();
+    //rect3.draw();
+    //rect4.draw();
+    //rect5.draw();
 
 
+}
+
+void mousePressed() {
+    rect1.grow(5);
 }
