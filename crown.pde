@@ -1,11 +1,8 @@
 int dotWidth = 10;
 Enlightenment dot;
-Noise noise;
 Shape rect1;
 Shape rect2;
-Shape rect3;
-Shape rect4;
-Shape rect5;
+ArrayList<Shape> rects = new ArrayList<Shape>();
 
 void setup() {
     size(600, 600, P2D);
@@ -13,21 +10,44 @@ void setup() {
     //frameRate(0.5);
     dot = new Enlightenment(random(width - dotWidth), random(height - dotWidth));
 
-    rect1 = new Shape(10, 10, 58, 58, "advance");
-    rect2 = new Shape(20, 20, 56, 56, "advance");
-    //rect3 = new Shape(30, 30, 54, 54, "random");
-    //rect4 = new Shape(40, 40, 52, 52, "advance");
-    //rect5 = new Shape(50, 50, 50, 50, "random");
+    int i = 0;
 
+    while (i < 20) {
+        rects.add(new Shape(20 * i, 20 * i, (width - (40 * i)), height - (40 * i), randomType()));
+        rects.get(i).setup();
+        i += 1;
+    }
+    rect1 = new Shape(-150, -150, 300, 300, "rotation");
     rect1.setup();
+
+
+    rect2 = new Shape(-100, -100, 200, 200, "rotation");
     rect2.setup();
-    //rect3.setup();
-    //rect4.setup();
-    //rect5.setup();
 }
+
+String randomType() {
+    int rand = int(random(7));
+
+    switch (rand) {
+        case 1:
+            return "advance";
+        case 2:
+            return "rewind";
+        default:
+            return "random";
+    }
+}
+
 
 void draw() {
     background(255,255,255);
+
+    for (Shape rectangle : rects) {
+        rectangle.draw();
+    }
+
+    rect1.draw();
+    rect2.draw();
 
     dot.draw();
 
@@ -36,16 +56,9 @@ void draw() {
     } else {
         dot.shrink();
     }
-
-    rect1.draw();
-    rect2.draw();
-    //rect3.draw();
-    //rect4.draw();
-    //rect5.draw();
-
-
 }
 
 void mousePressed() {
-    rect1.grow(5);
+    //rect1.grow();
+    //rect1.updateRotation(10);
 }

@@ -6,9 +6,12 @@ class Shape {
     float y;
     float width;
     float height;
+    int vBlocks;
+    int hBlocks;
     int thickness = 2;
     float unitSize = 10;
-    ArrayList<PImage> units = new ArrayList<PImage>();
+    int rotation = 0;
+    ArrayList<Pixel> units = new ArrayList<Pixel>();
     String arrangeType;
     Noise noise;
 
@@ -19,6 +22,8 @@ class Shape {
         width = init_w;
         height = init_h;
         arrangeType = type;
+        vBlocks = int(height/unitSize);
+        hBlocks = int(width/unitSize);
     }
 
     Shape(float init_x, float init_y, float init_w, float init_h) {
@@ -30,8 +35,8 @@ class Shape {
         noise.setup();
 
         int i = 0;
-        while (i < 20) {
-            units.add(noise.pic());
+        while (i < 50) {
+            units.add(new Pixel(noise.pic()));
             i += 1;
         }
     }
@@ -39,8 +44,10 @@ class Shape {
     void draw() {
         float pos_x;
         float pos_y;
-        int unitsLength = units.size();
+        int maxIndex = units.size();
         int counter = 0;
+
+        pushMatrix();
 
         if (arrangeType == "random") {
             randomise();
@@ -50,18 +57,46 @@ class Shape {
             advance();
         }
 
-        for (int i = 0; i < width; i += 1) {
-            for (int o = 0; o < height; o += 1) {
-                if ((i < thickness) || (i >= width - thickness) ||
-                    (o < thickness) || (o >= height - thickness)) {
-                    pos_x = i * unitSize + x;
-                    pos_y = o * unitSize + y;
+        if (arrangeType == "rewind") {
+            rewind();
+        }
 
-                    image(units.get(counter), pos_x, pos_y, unitSize, unitSize);
-                    counter = counter < unitsLength - 1 ? (counter + 1) : 0;
+        if (arrangeType == "rotation") {
+            rotation();
+        }
+
+        if (rotation != 0) {
+            //translate(500/(2 + ((15/15) % 3)), height/-2);
+            //println(width/(2 + ((rotation/15) % 3)));
+            //translate((600/(2 + (15/15 % 3))), height/-2);
+            translate(300, 300);
+            rotate(radians(rotation));
+        }
+
+        for (int column = 0; column < vBlocks; column += 1) {
+            for (int row = 0; row < hBlocks; row += 1) {
+                if (isDrawableEdge(column, row)) {
+                    pos_x = column * unitSize + x;
+                    pos_y = row * unitSize + y;
+
+                    units.get(counter).draw(pos_x, pos_y);
+                    counter = incrementCounter(counter, maxIndex);
                 }
             }
         }
+        popMatrix();
+    }
+
+    int incrementCounter(int counter, int maxIndex) {
+        //reset counter if max index has been reached
+        return counter < maxIndex - 1 ? (counter + 1) : 0;
+    }
+
+    boolean isDrawableEdge(int column, int row) {
+        return (column < thickness) ||
+               (column >= hBlocks - thickness) ||
+               (row < thickness) ||
+               (row >= vBlocks - thickness);
     }
 
     void randomise() {
@@ -72,11 +107,23 @@ class Shape {
         Collections.rotate(units, 1);
     }
 
+    void rewind() {
+        Collections.rotate(units, -1);
+    }
+
     void grow() {
         thickness += 1;
     }
 
     void grow(int increment) {
         thickness += increment;
+    }
+
+    void rotation() {
+        updateRotation(15);
+    }
+
+    void updateRotation(int increment) {
+        rotation += increment;
     }
 }
